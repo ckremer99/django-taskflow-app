@@ -10,16 +10,22 @@
     padding: 10px; 
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-radius: 10px;
+    width: 80vw;
 }
 
 .links-container a {
     color: white;
     text-decoration: none;
+    display: flex;
 }
 
 .links-container ul {
     list-style-type: none; 
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
 }
 
 .links-container li {
@@ -30,6 +36,12 @@
 
 header {
     background-color: rgba(29, 103, 207, 0.905);
+}
+
+#logout-form button {
+    background-color: navy; 
+    color: white; 
+    border: none;
 }
 
 img {
