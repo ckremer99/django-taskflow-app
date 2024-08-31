@@ -1,0 +1,15 @@
+.todo {
+    display: flex;
+    flex-direction: column;
+    padding: 10px; 
+    border-radius: 10px; 
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    margin: 10px; 
+}
+
+.todo a {
+    color: black;
+    text-decoration: none;
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %} {% block head %}
+    <link rel="stylesheet" href="{% static 'css/todos/detail.css' %}" />
+    <title>Todo Details</title>
+{% endblock %}
+{% block content %}
+    <h1>{{todo.title}}</h1>
+    <p>{{todo.due}}</p>
+    <p>{{todo.description}}</p>
+{% endblock %}
