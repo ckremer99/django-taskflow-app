@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Todo
+from django.views.generic import ListView, DetailView
+from .models import Todo, Flag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
@@ -16,7 +17,13 @@ def todo_index(request):
 
 def todo_detail(request, todo_id):
     todo = Todo.objects.get(id=todo_id)
-    return render(request, 'todos/detail.html/', { "todo": todo })
+    flags_todo_doesnt_have = Flag.objects.exclude(id__in = todo.flags.all().values_list('id'))
+    flags = todo.flags.all()
+    return render(request, 'todos/detail.html/', {
+         'todo': todo,
+         'flags_todo_doesnt_have': flags_todo_doesnt_have,
+         'flags': flags,
+    })
 
 def signup(request):
     error_message = ''
@@ -31,6 +38,14 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
+
+def associate_flag(request, todo_id, flag_id):
+    Todo.objects.get(id=todo_id).flags.add(flag_id)
+    return redirect('todo-detail', todo_id=todo_id)
+
+def remove_flag(request, todo_id, flag_id):
+    Todo.objects.get(id=todo_id).flags.remove(flag_id)
+    return redirect('todo-detail', todo_id=todo_id)
         
 class TodoCreate(CreateView):
     model = Todo
@@ -48,4 +63,22 @@ class TodoUpdate(UpdateView):
 class TodoDelete(DeleteView):
     model = Todo
     success_url = '/todos/'
+
+class FlagCreate(CreateView): 
+    model = Flag
+    fields = '__all__' 
+
+class FlagList(ListView):
+    model = Flag
+
+class FlagDetail(DetailView):
+    model = Flag
+
+class FlagUpdate(UpdateView):
+    model = Flag
+    fields = ['name', 'color']
+
+class FlagDelete(DeleteView):
+    model = Flag
+    success_url = '/flags/'
 

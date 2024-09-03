@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %} 
+    <link rel="stylesheet" href="{% static 'css/flags/flag-list.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <h1>Flag List</h1>
+    {% if flag_list %} 
+    <div class="flags-container">
+        {% for flag in flag_list %}
+            <div class="flag" style="border-color: {{flag.color}}">
+                <a href="{% url 'flag-detail' flag.id %}">
+                    <h2 style="color: {{flag.color}}">{{flag.name}}</h2>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No flags yet!</p>
+    {% endif %}
+{% endblock %}

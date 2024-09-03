@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% load static %} 
+{% block head %} 
+    <link rel="stylesheet" href="{% static 'css/flags/flag-detail.css' %}"/>
+{% endblock %} 
+{% block content %}
+<section>
+    <div class="flag" style="border-color: {{flag.color}}">
+        <h1 style="color: {{flag.color}}">{{flag.name}}</h1>
+    </div>
+    <div class='flag-actions'>
+        <a href="{% url 'flag-update' flag.id %}">Edit</a>
+        <a href="{% url 'flag-delete' flag.id %}">Delete</a>
+    </div>
+</section>
+{% endblock %}

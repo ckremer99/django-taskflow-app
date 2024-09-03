@@ -1,0 +1,21 @@
+.flags-container {
+    display: flex;
+    border-style: solid; 
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: black;
+    width: 500px;
+    flex-wrap: wrap;
+}
+
+.flags-container a {
+    text-decoration: none;
+}
+
+.flag {
+    margin: 10px; 
+    padding: 10px; 
+    border-style: solid; 
+    border-width: 1px; 
+    border-radius: 10px; 
+}

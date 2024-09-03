@@ -9,12 +9,15 @@ class Flag(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('todo-index')
 
 class Todo(models.Model):
     title = models.CharField(max_length=100)
     due = models.DateField()
     description = models.TextField(max_length=250)
-    categories = models.ManyToManyField(Flag)
+    flags = models.ManyToManyField(Flag)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
