@@ -1,0 +1,14 @@
+.todo-image {
+    width: 500px;
+    height: 500px; 
+}
+
+.login-form {
+    background-color: rgb(204, 175, 180);
+    padding: 20px;
+    width: 500px;
+}
+
+section {
+    text-align: center;
+}

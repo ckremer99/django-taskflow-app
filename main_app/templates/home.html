@@ -1,11 +1,15 @@
 {% extends "base.html" %} 
+{% load static %}
 {% block head %} 
   <title>Main Page</title> 
+  <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
 {% endblock %} 
 {% block content %}
+<h1>Home</h1>
+<p>Welcome to Taskflow, an app where you can create all your todos.</p>
 {% if not user.is_authenticated %}
 <section>
-  <form action="{% url 'home' %}" method="post" class="login">
+  <form class='login-form' action="{% url 'home' %}" method="post" class="login">
     <h1>Login</h1>
     {% csrf_token %} {{ form.as_p }}
     <input type="hidden" name="next" value="{{ next }}" />
@@ -13,4 +17,5 @@
   </form>
 </section>
 {% endif %}
+<img class='todo-image' src="{% static 'images/todo-list-homepage.png' %}"/>
 {% endblock %}

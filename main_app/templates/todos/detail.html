@@ -5,21 +5,32 @@
 {% endblock %}
 {% block content %}
 <section>
-    <heading>
+    <div>
         <h1>{{todo.title}}</h1>
         <hr>
         <p>{{todo.due}}</p>
         <div class="description">
             <p>{{todo.description}}</p>
         </div>
-    </heading>
+    </div>
+
+    <form class="completed-checkbox" method="post" action="{% url 'todo-completed' todo_id=todo.id %}">
+        {% csrf_token %}
+        {{completed_form}}
+    </form>
+
+    <script>
+        document.querySelector('.completed-checkbox input[type="checkbox"]').onchange = function() {
+            this.form.submit(); 
+        };
+    </script>
 
     <div class="todo-actions">
         <a href="{% url 'todo-update' todo.id %}" class="btn-warn">Edit</a>
         <a href="{% url 'todo-delete' todo.id %}" class="btn-danger">Delete</a>
     </div>
 </section>
-<section>
+<section class='flag-select-container'>
     <h3>Flags</h3>
     <div class="subsection">
         {% if flags.count %}
@@ -36,7 +47,7 @@
             <p style="font-size: 15px" >Add some flags!</p>
         {% endif %}
     </div>
-
+    <hr>
     <h3>Available Flags</h3>
     <div class="subsection">
         {% if flags_todo_doesnt_have.count %}

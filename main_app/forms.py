@@ -14,3 +14,8 @@ class TodoForm(forms.ModelForm):
                 }
             ),
         }
+
+class CompletedForm(forms.ModelForm):
+    class Meta: 
+        model = Todo
+        fields = ['completed']

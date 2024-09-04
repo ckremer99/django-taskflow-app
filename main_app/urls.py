@@ -11,6 +11,7 @@ urlpatterns = [
     path('flags/create/', views.FlagCreate.as_view(), name='flag-create'),
     path('todos/<int:todo_id>/associate-flag/<int:flag_id>/', views.associate_flag, name='associate-flag'),
     path('todos/<int:todo_id>/remove-flag/<int:flag_id>/', views.remove_flag, name='remove-flag'),
+    path('todos/<int:todo_id>/update-completed/', views.update_completed, name='todo-completed'),
     path('flags/<int:pk>/', views.FlagDetail.as_view(), name='flag-detail'),
     path('flags/', views.FlagList.as_view(), name='flag-index'),
     path('flags/<int:pk>/update', views.FlagUpdate.as_view(), name='flag-update'),

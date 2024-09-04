@@ -6,7 +6,7 @@ from .models import Todo, Flag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from .forms import TodoForm
+from .forms import TodoForm, CompletedForm
 
 class Home(LoginView):
     template_name = 'home.html'
@@ -19,10 +19,12 @@ def todo_detail(request, todo_id):
     todo = Todo.objects.get(id=todo_id)
     flags_todo_doesnt_have = Flag.objects.exclude(id__in = todo.flags.all().values_list('id'))
     flags = todo.flags.all()
-    return render(request, 'todos/detail.html/', {
+    completed_form = CompletedForm(instance=todo)
+    return render(request, 'todos/detail.html', {
          'todo': todo,
          'flags_todo_doesnt_have': flags_todo_doesnt_have,
          'flags': flags,
+         'completed_form': completed_form,
     })
 
 def signup(request):
@@ -45,6 +47,12 @@ def associate_flag(request, todo_id, flag_id):
 
 def remove_flag(request, todo_id, flag_id):
     Todo.objects.get(id=todo_id).flags.remove(flag_id)
+    return redirect('todo-detail', todo_id=todo_id)
+
+def update_completed(request, todo_id):
+    todo = Todo.objects.get(id=todo_id)
+    todo.completed = not todo.completed
+    todo.save()
     return redirect('todo-detail', todo_id=todo_id)
         
 class TodoCreate(CreateView):

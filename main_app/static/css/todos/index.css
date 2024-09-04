@@ -1,3 +1,11 @@
+.todos-container {
+    display: flex; 
+    flex-wrap: wrap;
+    width: 90; 
+    background-color: rgb(107, 107, 181);
+    border-radius: 10px;
+}
+
 .todo {
     display: flex;
     flex-direction: column;
@@ -7,6 +15,9 @@
     border-width: 2px;
     border-style: solid;
     margin: 10px; 
+    width: 25vw;
+    flex-wrap: wrap; 
+    background-color: white; 
 }
 
 .todo a {
