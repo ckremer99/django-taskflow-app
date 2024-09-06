@@ -30,39 +30,91 @@
         <a href="{% url 'todo-delete' todo.id %}" class="btn-danger">Delete</a>
     </div>
 </section>
-<section class='flag-select-container'>
-    <h3>Flags</h3>
-    <div class="subsection">
-        {% if flags.count %}
-            {% for flag in flags %}
-            <div class="flag-container">
-                <p style="color: {{flag.color}};">{{ flag.name }}</p>
-                <form action="{% url 'remove-flag' todo.id flag.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-submit">Remove Flag</button>
-                </form>
-            </div>
-            {% endfor %}
+<section>
+    <div class='subtask-area'>
+        <!-- Subtask creation form -->
+        <form 
+            class="subsection-content"
+            action="{% url 'subtask-create' todo_id=todo.id %}" 
+            method="post"
+            autocomplete="off"
+        >
+            {% csrf_token %} {{ subtask_form.as_p }}
+            <button type="submit" class="btn-submit">Add Subtask</button>
+        </form>
+        <hr>
+        <h3>Subtask List</h3>
+        {% if not subtasks %}
+            <p style="font-size: 15px">No subtasks have been assigned</p>
         {% else %}
-            <p style="font-size: 15px" >Add some flags!</p>
+            <table>
+                <tr>
+                    <th>Task</th>
+                    <th>Date Due</th>
+                    <th>Completed</th>
+                </tr>
+                {% for subtask in subtasks %}
+                    <tr>
+                        <td>{{subtask.title}}</td>
+                        <td>{{subtask.due}}</td>
+                        <td>
+                            <form 
+                                class='subtask-checkbox' 
+                                action="{% url 'subtask-checkbox' todo.id subtask.id %}" 
+                                method="post"
+                            >   
+                                {% csrf_token %}
+                                <input type="checkbox" name="completed" {% if subtask.completed %}checked{% endif %} onchange="this.form.submit();">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         {% endif %}
     </div>
-    <hr>
-    <h3>Available Flags</h3>
-    <div class="subsection">
-        {% if flags_todo_doesnt_have.count %}
-            {% for flag in flags_todo_doesnt_have %}
+
+    <script>
+        document.querySelectorAll('.subtask-checkbox input[type="checkbox"]').forEach(function(checkbox) {
+            checkbox.onchange = function() {
+                this.form.submit();
+            };
+        });
+    </script>
+
+    <div class='flag-select-container'>
+        <h3>Flags</h3>
+        <div class="subsection">
+            {% if flags.count %}
+                {% for flag in flags %}
                 <div class="flag-container">
                     <p style="color: {{flag.color}};">{{ flag.name }}</p>
-                    <form action="{% url 'associate-flag' todo.id flag.id %}" method="post">
+                    <form action="{% url 'remove-flag' todo.id flag.id %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="btn-submit">Add Flag</button>
+                        <button type="submit" class="btn-submit">Remove</button>
                     </form>
                 </div>
-            {% endfor %}
-        {% else %}
-            <p style="font-size: 15px">No flags to select</p>
-        {% endif %}
+                {% endfor %}
+            {% else %}
+                <p style="font-size: 15px" >Add some flags!</p>
+            {% endif %}
+        </div>
+        <hr>
+        <h3>Available Flags</h3>
+        <div class="subsection">
+            {% if flags_todo_doesnt_have.count %}
+                {% for flag in flags_todo_doesnt_have %}
+                    <div class="flag-container">
+                        <p style="color: {{flag.color}};">{{ flag.name }}</p>
+                        <form action="{% url 'associate-flag' todo.id flag.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-submit">Add Flag</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="font-size: 15px">No flags to select</p>
+            {% endif %}
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -13,6 +13,7 @@ class Flag(models.Model):
     def get_absolute_url(self):
         return reverse('todo-index')
 
+
 class Todo(models.Model):
     title = models.CharField(max_length=100)
     due = models.DateField()
@@ -22,10 +23,21 @@ class Todo(models.Model):
     completed = models.BooleanField(default=False)
 
     def __str__(self):
+         return self.title
+
+    def get_absolute_url(self):
+            return reverse('todo-detail', kwargs={'todo_id': self.id})
+
+class Subtask(models.Model):
+    title = models.CharField(max_length=250)
+    due = models.DateField('Date Due')
+    todo = models.ForeignKey(Todo, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+
+
+    def __str__(self):
         return self.title
     
-    def get_absolute_url(self):
-        return reverse('todo-detail', kwargs={'todo_id': self.id})
 
 
 
