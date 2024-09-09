@@ -24,3 +24,13 @@
     color: black;
     text-decoration: none;
 }
+
+.checkmark {
+    display: flex;
+    justify-content: right;
+}
+
+.show-completed {
+    margin: 20px; 
+}
+

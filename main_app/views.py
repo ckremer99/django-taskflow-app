@@ -16,7 +16,9 @@ class Home(LoginView):
 @login_required
 def todo_index(request):
     todos = Todo.objects.filter(user=request.user)
-    return render(request, 'todos/index.html/', { "todos": todos })
+    flags = Flag.objects.filter(user=request.user)
+    return render(request, 'todos/index.html/', 
+        { "todos": todos, "flags": flags})
 
 @login_required
 def todo_detail(request, todo_id):

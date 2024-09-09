@@ -6,12 +6,32 @@
 {% endblock %}
 {% block content %}
     <h1>All Todos</h1>
+    <div class="filter_forms">
+        <form>
+            <div class="show-completed">
+                <label>Show completed tasks</label>
+                <input 
+                    type="checkbox"
+                    checked />
+            </div>
+        </form>
+        <script>
+            document.querySelector(class).onchange = function() {
+                this.form.submit();
+            }
+        </script>
+    </div>
+
     <div class="todos-container">
         {% for todo in todos %}
            <div class="todo">
             <a href="{% url 'todo-detail' todo.id %}">
                 <h3 class="todo-title">{{ todo.title }}</h3>
                 <p>{{todo.description}}</p>
+                <p>{{todo.due}}
+                {% if todo.completed %} 
+                    <div class='checkmark'>✅</div>
+                {% endif %}
             </a>
            </div>
         {% endfor %}

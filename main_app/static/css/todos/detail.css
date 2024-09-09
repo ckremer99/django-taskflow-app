@@ -93,7 +93,8 @@ p {
 }
 
 .subsection-content button {
-    height: 30px; 
+    height: 25px; 
+    margin: 10px;
 }
 
 section h1 {
@@ -131,4 +132,11 @@ input[type="checkbox"] {
     border-color: black; 
     border-width: 1px; 
     margin: 20px; 
+}
+
+button {
+    color: white; 
+    background-color: rgb(110, 132, 239);
+    border-width: 0;
+    border-radius: 10px;
 }
