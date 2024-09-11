@@ -1,1 +1,1 @@
-web: gunicorn django-taskflow-app.wsgi
+web: gunicorn taskflow.wsgi
