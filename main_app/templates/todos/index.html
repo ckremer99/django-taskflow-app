@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<title>Todos</title>
+<title>To-do's</title>
 <link rel="stylesheet" href="{% static 'css/todos/index.css' %}"/>
 {% endblock %}
 {% block content %}
-    <h1>All Todos</h1>
+    <h1>All To-do's</h1>
     <div class="filter_forms">
-        <form>
+        <form method="post" action="{% url 'filter-todos' %}">
+        {% csrf_token %}
             <div class="show-completed">
                 <label>Show completed tasks</label>
-                <input 
-                    type="checkbox"
-                    checked />
+                <input type="checkbox" name="show-completed" checked/>
+                <label>Select Flags</label>
+                <select name="select-flag">
+                    <option value="All">All</option>
+                    {% for flag in flags %}
+                        <option value="{{flag.name}}">{{flag.name}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Filter To-do's</button>
             </div>
         </form>
-        <script>
-            document.querySelector(class).onchange = function() {
-                this.form.submit();
-            }
-        </script>
     </div>
 
     <div class="todos-container">

@@ -15,10 +15,10 @@ class Home(LoginView):
 
 @login_required
 def todo_index(request):
-    todos = Todo.objects.filter(user=request.user)
     flags = Flag.objects.filter(user=request.user)
+    todos = Todo.objects.filter(user=request.user)
     return render(request, 'todos/index.html/', 
-        { "todos": todos, "flags": flags})
+        { "todos": todos, "flags": flags })
 
 @login_required
 def todo_detail(request, todo_id):
@@ -89,6 +89,28 @@ def subtask_checkbox(request, todo_id, pk):
     subtask.completed = not subtask.completed
     subtask.save()
     return redirect('todo-detail', todo_id=todo_id)
+
+@login_required
+def filter_todos(request):
+    flags = Flag.objects.filter(user=request.user)
+    if request.method == 'POST': 
+        flag = request.POST.get('select-flag', False)
+        show_completed = True if request.POST.get('show-completed', False) == 'on' else False
+        if flag == 'All':
+            if not show_completed:
+                todos = Todo.objects.filter(user=request.user, completed=False)
+            else:
+                todos = Todo.objects.filter(user=request.user)
+        else:
+            if not show_completed:
+                todos = Todo.objects.filter(user=request.user, completed=False, flags__name=flag)
+            else: 
+                todos = Todo.objects.filter(user=request.user, flags__name=flag)
+    return render(request, "todos/index.html", {
+        "show_completed": show_completed,
+        "todos": todos,
+        "flags": flags, 
+    })
     
 
 
@@ -111,7 +133,11 @@ class TodoDelete(LoginRequiredMixin, DeleteView):
 
 class FlagCreate(LoginRequiredMixin, CreateView): 
     model = Flag
-    fields = '__all__' 
+    fields = ['name', 'color'] 
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class FlagList(LoginRequiredMixin, ListView):
     model = Flag

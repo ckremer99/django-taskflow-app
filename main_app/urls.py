@@ -12,11 +12,12 @@ urlpatterns = [
     path('todos/<int:todo_id>/associate-flag/<int:flag_id>/', views.associate_flag, name='associate-flag'),
     path('todos/<int:todo_id>/remove-flag/<int:flag_id>/', views.remove_flag, name='remove-flag'),
     path('todos/<int:todo_id>/update-completed/', views.update_completed, name='todo-completed'),
+    path('todos/filter-todos/', views.filter_todos, name='filter-todos'),
     path('flags/<int:pk>/', views.FlagDetail.as_view(), name='flag-detail'),
     path('flags/', views.FlagList.as_view(), name='flag-index'),
     path('flags/<int:pk>/update/', views.FlagUpdate.as_view(), name='flag-update'),
     path('flags/<int:pk>/delete/', views.FlagDelete.as_view(), name='flag-delete'),
-    path('subtasks/<int:todo_id>/add', views.subtask_create, name='subtask-create'),
+    path('subtasks/<int:todo_id>/add/', views.subtask_create, name='subtask-create'),
     path('subtasks/<int:todo_id>/<int:pk>/completed/', views.subtask_checkbox, name='subtask-checkbox'),
     path('accounts/signup/', views.signup, name='signup'),
 ]
